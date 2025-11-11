@@ -1,0 +1,8 @@
+# Chn1 Chn2  PAE Dist  Type   ipSAE    ipSAE_d0chn ipSAE_d0dom  ipTM_af  ipTM_d0chn     pDockQ     pDockQ2    LIS      n0res  n0chn  n0dom   d0res   d0chn   d0dom  nres1   nres2   dist1   dist2  Model
+# A    B     10   10   asym  0.704625    0.913722    0.913722    0.930    0.913722      0.4567     0.8231     0.8226      36    100    100    1.62    3.65    3.65     64      36      31      22   /data1/lareauc/users/chuh/softwares/CARPNN/examples/01_bindcraft_boltz_refolded/predictions/boltz_predictions/chunk_2/boltz_results_chunk_2/predictions/BCMA_l64_s257143_mpnn2__BCMA/BCMA_l64_s257143_mpnn2__BCMA_model_1
+alias color_A_B, color magenta, chain  A and resi 1-64; color marine, chain  B and resi 1-36
+
+# B    A     10   10   asym  0.877872    0.926633    0.926633    0.918    0.926633      0.4567     0.8201     0.7452      64    100    100    2.74    3.65    3.65     36      64      22      31   /data1/lareauc/users/chuh/softwares/CARPNN/examples/01_bindcraft_boltz_refolded/predictions/boltz_predictions/chunk_2/boltz_results_chunk_2/predictions/BCMA_l64_s257143_mpnn2__BCMA/BCMA_l64_s257143_mpnn2__BCMA_model_1
+# A    B     10   10   max   0.877872    0.926633    0.926633    0.930    0.926633      0.4567     0.8231     0.7839      64    100    100    2.74    3.65    3.65     64      36      31      22   /data1/lareauc/users/chuh/softwares/CARPNN/examples/01_bindcraft_boltz_refolded/predictions/boltz_predictions/chunk_2/boltz_results_chunk_2/predictions/BCMA_l64_s257143_mpnn2__BCMA/BCMA_l64_s257143_mpnn2__BCMA_model_1
+alias color_B_A, color marine, chain  B and resi 1-36; color magenta, chain  A and resi 1-64
+

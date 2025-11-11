@@ -1,0 +1,6 @@
+INPUT_PDB=/data1/lareauc/users/chuh/softwares/CARPNN/examples/02_lead_candidate_mutagenized/input_structure/BCMA_l54_s662851_mpnn3_model2_chain_swapped.pdb
+INTERFACE_RESIDUES=examples/02_lead_candidate_mutagenized/input_structure/BCMA_l54_interface_residues.jsonl
+OUTPUT_DIR=examples/02_lead_candidate_mutagenized/evolved_sequences/interface_redesigned
+BINDER_CHAIN=A
+TARGET_CHAIN=B
+SUFFIX_NAME=_interface_redesigned

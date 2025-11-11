@@ -1,0 +1,10 @@
+sequences:
+- protein:
+    id: A
+    msa: /data1/lareauc/users/chuh/softwares/CARPNN/examples/01_bindcraft_boltz_refolded/predictions/colabsearch_output/BCMA_l57_s933667_mpnn1__BCMA_0.csv
+    sequence: SWREMSPREYVLEVGVERLREIIREHGGRDSPRFQEFERQFRHWYGEEMYEELLSRL
+- protein:
+    id: B
+    msa: /data1/lareauc/users/chuh/softwares/CARPNN/examples/01_bindcraft_boltz_refolded/predictions/colabsearch_output/BCMA_l57_s933667_mpnn1__BCMA_1.csv
+    sequence: CSQNEYFDSLLHACIPCQLRCSSNTPPLTCQRYCNA
+version: 1

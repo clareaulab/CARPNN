@@ -1,0 +1,12 @@
+>BCMA_l54_s662851_mpnn3_model2_chain_swapped, T=0.4, seed=1, num_res=34, num_ligand_res=34, use_ligand_context=True, ligand_cutoff_distance=8.0, batch_size=5, number_of_batches=1, model_path=/data1/lareauc/users/chuh/softwares/LigandMPNN/model_params/solublempnn_v_48_020.pt
+SMEEYQKKMSEFANEITEEAMKDPEKYKEVSWMLNTEEGRYKLKEIVEKKIKES:CSQNEYFDSLLHACIPCQLRCSSNTPPLTCQRYCNA
+>BCMA_l54_s662851_mpnn3_model2_chain_swapped, id=1, T=0.4, seed=1, overall_confidence=0.1768, ligand_confidence=0.1768, seq_rec=0.5000
+SKEQYQGLMSKFANEITEQAMKDPELYKFVSAMLNTEQGRYELKGLVLRKIEQS:CSQNEYFDSLLHACIPCQLRCSSNTPPLTCQRYCNA
+>BCMA_l54_s662851_mpnn3_model2_chain_swapped, id=2, T=0.4, seed=1, overall_confidence=0.1906, ligand_confidence=0.1906, seq_rec=0.4706
+SKTDYQNEMSKYANEITESAMNNPELYTRVSRMLNTEDGRYKLKEEVEKKIESS:CSQNEYFDSLLHACIPCQLRCSSNTPPLTCQRYCNA
+>BCMA_l54_s662851_mpnn3_model2_chain_swapped, id=3, T=0.4, seed=1, overall_confidence=0.2557, ligand_confidence=0.2557, seq_rec=0.6176
+SEEEYQKKMSEEANKVTENAMKNPEEYKRVSEMLNTEEGRYKLKEIVLKRIEEK:CSQNEYFDSLLHACIPCQLRCSSNTPPLTCQRYCNA
+>BCMA_l54_s662851_mpnn3_model2_chain_swapped, id=4, T=0.4, seed=1, overall_confidence=0.2959, ligand_confidence=0.2959, seq_rec=0.7647
+SKEEYQKQMSEEANKITEEAMKDPEKYKEVSEKLNTEEGRYKLKEEVEKRIKES:CSQNEYFDSLLHACIPCQLRCSSNTPPLTCQRYCNA
+>BCMA_l54_s662851_mpnn3_model2_chain_swapped, id=5, T=0.4, seed=1, overall_confidence=0.2279, ligand_confidence=0.2279, seq_rec=0.5588
+TDLEYQKLMSEEANKITEEAMKDPEKYKEVSDMLNTLEGRYELKQVVEEKIEKR:CSQNEYFDSLLHACIPCQLRCSSNTPPLTCQRYCNA

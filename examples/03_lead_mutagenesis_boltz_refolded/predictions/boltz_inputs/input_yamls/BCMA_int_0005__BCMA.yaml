@@ -1,0 +1,10 @@
+sequences:
+- protein:
+    id: A
+    msa: examples/03_lead_mutagenesis_boltz_refolded/predictions/colabsearch_output/BCMA_int_0005__BCMA_0.csv
+    sequence: SMEEYKKKLKEFAQEIVLEALKDPEKFKEVSWMLETEEGRKKLKEIVEKKIKES
+- protein:
+    id: B
+    msa: examples/03_lead_mutagenesis_boltz_refolded/predictions/colabsearch_output/BCMA_int_0005__BCMA_1.csv
+    sequence: CSQNEYFDSLLHACIPCQLRCSSNTPPLTCQRYCNA
+version: 1

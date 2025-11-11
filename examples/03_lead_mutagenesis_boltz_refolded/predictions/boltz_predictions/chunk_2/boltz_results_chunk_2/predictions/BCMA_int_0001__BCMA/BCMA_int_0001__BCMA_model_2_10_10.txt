@@ -1,0 +1,6 @@
+
+Chn1 Chn2  PAE Dist  Type   ipSAE    ipSAE_d0chn ipSAE_d0dom  ipTM_af  ipTM_d0chn     pDockQ     pDockQ2    LIS       n0res  n0chn  n0dom   d0res   d0chn   d0dom  nres1   nres2   dist1   dist2  Model
+A    B     10   10   asym  0.083973    0.288882    0.286111    0.629    0.288882      0.2012     0.2779     0.4491      36     90     89    1.62    3.43    3.41     53      36      26      18   examples/03_lead_mutagenesis_boltz_refolded/predictions/boltz_predictions/chunk_2/boltz_results_chunk_2/predictions/BCMA_int_0001__BCMA/BCMA_int_0001__BCMA_model_2
+B    A     10   10   asym  0.187523    0.313571    0.310765    0.671    0.313571      0.2012     0.3206     0.4588      54     90     89    2.41    3.43    3.41     35      54      18      26   examples/03_lead_mutagenesis_boltz_refolded/predictions/boltz_predictions/chunk_2/boltz_results_chunk_2/predictions/BCMA_int_0001__BCMA/BCMA_int_0001__BCMA_model_2
+A    B     10   10   max   0.187523    0.313571    0.310765    0.671    0.313571      0.2012     0.3206     0.4539      54     90     89    2.41    3.43    3.41     54      36      26      18   examples/03_lead_mutagenesis_boltz_refolded/predictions/boltz_predictions/chunk_2/boltz_results_chunk_2/predictions/BCMA_int_0001__BCMA/BCMA_int_0001__BCMA_model_2
+

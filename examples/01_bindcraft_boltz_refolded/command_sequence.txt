@@ -1,0 +1,1 @@
+sbatch workflows/Boltz/boltz_pipeline_wrapper_step_02_05_HC.sh /data1/lareauc/users/chuh/softwares/CARPNN/examples/01_bindcraft_boltz_refolded/input_tables/colabfold_table.csv /data1/lareauc/users/chuh/softwares/CARPNN/examples/01_bindcraft_boltz_refolded/predictions 2
