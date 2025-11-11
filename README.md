@@ -2,7 +2,7 @@
 
 ![project_logo](assets/logo.png)
 
-The CAR-PNN (Chimeric-Antigen-Receptor ProteinMPNN) workflow is a general purposed, HPC-ready workflow that allows you to perfom various protein design / protein interaction tasks such as
+The **CAR-PNN (Chimeric-Antigen-Receptor ProteinMPNN)** workflow is a general purposed, HPC-ready workflow that allows you to perfom various protein design / protein interaction tasks such as
 - Large-scale local folding of protein sequences via Boltz
 - Implement custom binder filtering configuration similar to the one used by BindCraft
 - Lead optimization of de novo binder via SoluableMPNN for downstream applications such as CAR
