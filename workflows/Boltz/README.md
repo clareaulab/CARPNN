@@ -1,4 +1,7 @@
 ## Large-scale Boltz Refolding Workflow
+
+This directory contains the workflow to run Boltz over a large number of binder-target pairs locally.
+
 Warning: Running Boltz locally require downloading the entirely of colabfold's database which is ~2TB in size and could take substantial amount of time
 
 ## tl;dr
@@ -6,13 +9,11 @@ Warning: Running Boltz locally require downloading the entirely of colabfold's d
 2. The `boltz_pipeline_wrapper_step_06_08_HC.sh` script runs step 06-08 to extract additional metrics from the outputs from the previous step.
 3. The `10_aggregate_boltz_outputs.sh` script aggregates scores from previous outputs for downstream analysis
 
-For example of what the output structure should look like, see
+For example of what the output structure should look like, see the `examples/01_bindcraft_boltz_refolded/predictions`. For exact commands check the notebooks.
 
 ## Script setup and Descriptions
 
 ### All scripts
-
-The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory.
 
 The sbatch headers configurations (ex: `#SBATCH --partition=cpu`) should be updated to fit your HPC system. 
 
@@ -21,6 +22,7 @@ The sbatch headers configurations (ex: `#SBATCH --partition=cpu`) should be upda
 This scripts takes in a colabfold-style csv and performs multi-sequence alignment (paired and unpaired) against a local database.
 Follow the instruction from https://github.com/sokrypton/ColabFold/wiki/Running-ColabFold-in-Docker to set up the singularity container and the instructions from https://colabfold.mmseqs.com/ to set up the colabfold database. In particular, you should update these two variables.
 
+- The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
 - The `SIF_PATH` variable should be updated to the path to the singularity container downloaded
   - `singularity pull docker://ghcr.io/sokrypton/colabfold:1.5.5-cuda12.2.2`
 - The `DB_FOLDER` variable should be updated to the parent directory where the databases are hosted
@@ -28,7 +30,7 @@ Follow the instruction from https://github.com/sokrypton/ColabFold/wiki/Running-
   - `chmod +x setup_databases.sh`
   - `./setup_databases.sh database/`
 
-Currently the input csv must have two columns named `id` and `sequence`. The id must be formatted by the binder name and target name delimitted by a double underscored. For example: `binder_1__BCMA`. The sequence must contain exactly two sequence delimited by `:`. For example: `BINDERSEQ:TARGETSEQ`
+Currently the input csv must have two columns named `id` and `sequence`. The id must be formatted by the binder name and target name delimitted by a double underscored. For example: `binder_1__BCMA`. The sequence must contain exactly two sequence delimited by `:`. For example: `BINDERSEQ:TARGETSEQ`. An example of this input can be found in `examples/01_bindcraft_boltz_refolded/input_tables/colabfold_table.csv`
 
 Setting up a local MSA search also require massive amount of memory so make sure your sbatch configuration is very high in memory (at least 512GB) for efficient search.
 
@@ -95,7 +97,7 @@ Note that this sccipt can also be ran with an addition flag `-no_relax`. If spec
 
 ### `08b_run_rosetta_array.sh`
 
-A convenience script that runs `08_run_rosetta.sh` over a list of directories. The `-no_relax` flag can also be specified here.
+A convenience script that runs `08_run_rosetta.sh` over a list of directories. The `-no_relax` flag can also be specified here to skip relaxing the structure to improve runtime.
 
 - The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
 
@@ -113,8 +115,21 @@ This script aggregates the predictions files in each directory into a csv that c
 - The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
 - The `CARPNN_PYTHON` should be updated to the CAR-PNN environment python
 
+### `boltz_pipeline_wrapper_step_02_05_HC.sh`
 
+This is a wrapper scripts that runs `02_generate_msa.sh`, `03_prep_boltz_yamls.sh`, `04_split_boltz_yamls.sh`, and `05b_run_boltz_with_local_msa_array.sh` sequentially. This script takes the longest time 
+
+- The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
+
+### `boltz_pipeline_wrapper_step_06_08_HC.sh`
+
+This is a wrapper scripts that runs `06b_run_ipsae_array.sh`, `07b_run_pae_array.sh`, `08b_run_rosetta_array.sh` simultaneously
+
+- The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
+
+
+### Other 
 If you use the code here. Please also cite the studies where the code is based on:
-- Boltz1/2
-- BindCraft
-- ColabFold
+- Boltz1/2: https://github.com/jwohlwend/boltz
+- BindCraft: https://github.com/martinpacesa/BindCraft
+- ColabFold: https://github.com/sokrypton/ColabFold
