@@ -57,11 +57,17 @@ All the inputs required and outputs from the tool are provided in the `examples/
 - `public` - directory where other tools can be installed
 - `workflows` - parental directory containing scripts for individual workflows
 
-## Other Comments
+## Common Questions
 
-As the tool was developed with de novo binders in mind, we have not tested this tool on variants of antibody formats (scFVs/VHHs) and do not recommend using this workflow as the individual tools (e.g. ProteinMPNN/Boltz/ipSAE) have not been validated for this purpose. However as new tools come up may get included in this workflow in the future.
+### Can this be used to lead optimize variants of antibody formats (scFVs/VHHs)?
 
-If you bump into errors related to deep learning libraries such JAX not being correctly set up, it is likely that you have compiled the library on a cpu-node without gpu access. This can usually be solved by requesting a gpu interactive session and reinstalling the libraries.
+As the tool was developed with de novo binders in mind, we have not tested this tool on scFVs and do not recommend using this workflow as the individual tools (e.g. ProteinMPNN/Boltz/ipSAE) have not been validated for this purpose. However as new tools come up may get included in this workflow in the future.
+
+### Can this be used to fold up my binder against a multi-chain protein?
+Unfortunately this feature is not implemented at the moment. As a get around, you can add glycines linkers (ex: 20Gs) between the multichain protein and treat them as monomer
+
+### I am bumping into JAX / deep learning library related errors, what should I do?
+It is likely that you have compiled the library on a cpu-node without gpu access. This can usually be solved by requesting a gpu interactive session and reinstalling the libraries.
 
 Have more questions / comments? Reach out to Hoyin at chuh@mskcc.org!
 
