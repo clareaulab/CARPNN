@@ -12,7 +12,7 @@ This will download the [heme_binder_diffusion](https://github.com/ikalvet/heme_b
 
 After the repository has been downloaded, you would also need to create a `mlfold` conda environment using the yaml file provided in `public/heme_binder_diffusion/envs/mlfold` 
 
-`conda env create -f public/heme_binder_diffusion/envs/mlfold/yml`
+`conda env create -f public/heme_binder_diffusion/envs/mlfold.yml`
 
 Once the environment has been created, note the python path to the environment 
 ```
