@@ -17,7 +17,7 @@ BINDCRAFT_PYTHON="/data1/lareauc/users/chuh/miniconda3/envs/BindCraft/bin/python
 CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
 BINDCRAFT_UTIL_SCRIPT="${CARPNN_DIR}/workflows/Boltz/bindcraft_utils.py"
 
-# Check if the optional "-no-relax" flag is present in arguments 3 and beyond
+# Check if the optional "-no_relax" flag is present in arguments 3 and beyond
 RELAX_FLAG=""
 for arg in "$@"; do
     if [ "$arg" = "-no_relax" ]; then

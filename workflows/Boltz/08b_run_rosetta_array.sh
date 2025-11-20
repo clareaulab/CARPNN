@@ -1,7 +1,7 @@
 #!/bin/sh
 PARENT_DIR=$1
 BINDER_CHAIN=${2:-"A"} # Default to "A" if not provided
-# Check if the optional "-no-relax" flag is present in arguments 3 and beyond
+# Check if the optional "-no_relax" flag is present in arguments 3 and beyond
 RELAX_FLAG=""
 for arg in "$@"; do
     if [ "$arg" = "-no_relax" ]; then
