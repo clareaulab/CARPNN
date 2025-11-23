@@ -9,7 +9,6 @@
 #SBATCH --mem=64G
 #SBATCH --time=48:00:00
 #SBATCH --mail-type=END,FAIL
-#SBATCH --mail-user=chuh@mskcc.org
 
 INPUT_PATH=$1
 OUTPUT_DIR=$2
