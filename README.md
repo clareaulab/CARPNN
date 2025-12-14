@@ -74,7 +74,7 @@ Have more questions / comments? Reach out to Hoyin at chuh@mskcc.org!
 ## License 
 MIT License. See LICENSE file 
 
-**Citation**:
+## Citation:
 If you are using CARPNN in your research, please cite:
 ```
 @article {Chow2025.12.12.694033,
