@@ -71,5 +71,17 @@ It is likely that you have compiled the library on a cpu-node without gpu access
 
 Have more questions / comments? Reach out to Hoyin at chuh@mskcc.org!
 
-## License
-MIT 
+## License 
+MIT License. See LICENSE file 
+
+**Citation**:
+If you are using CARPNN in your research, please cite:
+```
+@article {Chow2025.12.12.694033,
+	author = {Chow, Arthur and Chu, Hoyin and Li, Ruofan and Nalbant, Benan and Dozic, Abdul and Kida, Laura and Lareau, Caleb},
+	title = {Sequence and structural determinants of efficacious de novo chimeric antigen receptors},
+	year = {2025},
+	doi = {10.64898/2025.12.12.694033},
+	journal = {bioRxiv}
+}
+```
