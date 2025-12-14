@@ -69,12 +69,12 @@ Unfortunately this feature is not implemented at the moment. As a get around, yo
 ### I am bumping into JAX / deep learning library related errors, what should I do?
 It is likely that you have compiled the library on a cpu-node without gpu access. This can usually be solved by requesting a gpu interactive session and reinstalling the libraries.
 
-Have more questions / comments? Reach out to Hoyin at chuh@mskcc.org!
+Have more questions / comments? Post in the issues page or reach out to Hoyin at chuh@mskcc.org!
 
 ## License 
 MIT License. See LICENSE file 
 
-## Citation:
+## Citation
 If you are using CARPNN in your research, please cite:
 ```
 @article {Chow2025.12.12.694033,
