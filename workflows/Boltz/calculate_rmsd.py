@@ -3,7 +3,7 @@ import numpy as np
 import os
 import tqdm
 
-from Bio.PDB import PDBParser, Superimposer
+from Bio.PDB import PDBParser, MMCIFParser, Superimposer
 from Bio import pairwise2
 
 import argparse
@@ -76,9 +76,15 @@ def aligned_chain_rmsd_over_other_chain(
     Returns:
         RMSD (float)
     """
-    parser = PDBParser(QUIET=True)
-    ref_structure = parser.get_structure("ref", reference_pdb)
-    align_structure = parser.get_structure("align", align_pdb)
+    if reference_pdb.endswith(".pdb"):
+        ref_structure = PDBParser(QUIET=True).get_structure("ref", reference_pdb)
+    elif reference_pdb.endswith(".cif"):
+        ref_structure = MMCIFParser(QUIET=True).get_structure("ref", reference_pdb)
+
+    if align_pdb.endswith(".pdb"):
+        align_structure = PDBParser(QUIET=True).get_structure("align", align_pdb)
+    elif align_pdb.endswith(".cif"):
+        align_structure = MMCIFParser(QUIET=True).get_structure("align", align_pdb)
 
     # Alignment chains (used for alignment and superposition)
     ref_align_chain = ref_structure[0][reference_align_chain_id]
