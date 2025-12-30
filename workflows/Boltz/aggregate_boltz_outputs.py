@@ -114,8 +114,47 @@ def load_pdb_ipsae(pdb,max_only=True):
     ## For now just return the plain interchain ipsae metric
     ipsae_df = pd.read_csv(ipsae_txt,sep="\s+")
     if max_only:
-        # This collapse the ipsae metrics to a single number per prediction
-        ipsae_df = ipsae_df[ipsae_df["Type"]=="max"].copy()
+        # Identify all unique chain pairs present in the file
+        pairs = ipsae_df[ipsae_df["Type"] == "asym"][["Chn1", "Chn2"]].drop_duplicates()
+        for _, row in pairs.iterrows():
+            c1, c2 = row["Chn1"], row["Chn2"]
+            # Extract Asymmetric ipSAE (Directional: Chn1 -> Chn2)
+            asym_val = ipsae_df[
+                (ipsae_df["Chn1"] == c1) & 
+                (ipsae_df["Chn2"] == c2) & 
+                (ipsae_df["Type"] == "asym")
+            ]["ipSAE"]
+            if not asym_val.empty:
+                col_name_asym = f"Chn1_{c1}_to_Chn2_{c2}_ipSAE"
+                ipsae_df[col_name_asym] = asym_val.item()
+            # Extract Max ipSAE (Interaction between Chn1 and Chn2)
+            max_val = ipsae_df[
+                (ipsae_df["Chn1"] == c1) & 
+                (ipsae_df["Chn2"] == c2) & 
+                (ipsae_df["Type"] == "max")
+            ]["ipSAE"]
+            if not max_val.empty:
+                col_name_max = f"Chn1_{c1}_to_Chn2_{c2}_ipSAE_max"
+                ipsae_df[col_name_max] = max_val.item()
+        # Collapse the dataframe to a single row containing all new columns
+        # We keep only the global 'max' type row and drop duplicates
+        ipsae_df = ipsae_df[ipsae_df["Type"] == "max"].copy().drop_duplicates("Type")
+    # if max_only:
+    #     # This collapse the ipsae metrics to a single number per prediction
+    #     #ipsae_max_df = ipsae_df[ipsae_df["Type"]=="max"].copy()
+    #     print(ipsae_df.columns)
+    #     print(ipsae_df["Chn1"])
+    #     print(ipsae_df["Chn2"])
+    #     ## 2025-12-14 update:
+    #     ## Also add the A->B and B->A ipSAE
+    #     a_to_b_ipSAE = ipsae_df[(ipsae_df["Chn1"]=="A")&(ipsae_df["Chn2"]=="B")&(ipsae_df["Type"]=="asym")]["ipSAE"].item()
+    #     b_to_a_ipSAE = ipsae_df[(ipsae_df["Chn1"]=="B")&(ipsae_df["Chn2"]=="A")&(ipsae_df["Type"]=="asym")]["ipSAE"].item()
+    #     a_to_b_ipSAE_max = ipsae_df[(ipsae_df["Chn1"]=="A")&(ipsae_df["Chn2"]=="B")&(ipsae_df["Type"]=="max")]["ipSAE"].item()
+    #     ipsae_df["Chn1_A_to_Chn2_B_ipSAE"] = a_to_b_ipSAE
+    #     ipsae_df["Chn1_B_to_Chn2_A_ipSAE"] = b_to_a_ipSAE
+    #     ipsae_df["Chn1_A_to_Chn2_B_ipSAE_max"] = a_to_b_ipSAE_max
+    #     ## If we are dealing with >2 chains take the ipSAE outputs for the first pair 
+    #     ipsae_df = ipsae_df[ipsae_df["Type"]=="max"].copy().drop_duplicates("max")
     return ipsae_df
 
 def load_ipsae_dir(dir):
@@ -159,24 +198,47 @@ def extract_boltz_seq(pdb_path, chains=("A", "B")):
     return result
     
 
-def extract_boltz_pae_npz(pdb_path,pae_path):
-    ## PAE of protein chains?
+def extract_boltz_pae_npz(pdb_path, pae_path):
+    # Load the PAE matrix from Boltz output
     pae_file = np.load(pae_path)["pae"]
-    chain_a_start,chain_a_end = get_chain_absolute_indices(pdb_path,"A")
-    chain_b_start,chain_b_end = get_chain_absolute_indices(pdb_path,"B")
-    pae_all = np.mean(pae_file)
-    pae_interaction1 = np.mean(pae_file[chain_a_start:chain_a_end+1,chain_b_start:chain_b_end+1])
-    pae_interaction2 = np.mean(pae_file[chain_b_start:chain_b_end+1,chain_a_start:chain_a_end+1])
-    pae_binder = np.mean(pae_file[chain_a_start:chain_a_end+1,chain_a_start:chain_a_end+1])
-    pae_target = np.mean(pae_file[chain_b_start:chain_b_end+1,chain_b_start:chain_b_end+1])
-    pae_interaction = (pae_interaction1 + pae_interaction2 ) / 2
+    # 1. Identify all unique chains in the PDB file
+    parser = PDBParser(QUIET=True)
+    structure = parser.get_structure('struct', pdb_path)
+    # Extract IDs for all chains present in the first model
+    chains = sorted([chain.id for chain in structure[0]])
     pae_res = {
-        "pae_all":pae_all,
-        "pae_binder":pae_binder,
-        "pae_target":pae_target,
-        "pae_interaction":pae_interaction
+        "pae_all": np.mean(pae_file)
     }
-    return pd.json_normalize(pae_res)
+    # Pre-calculate indices for all chains to avoid repeated PDB parsing
+    chain_idx_map = {}
+    for chain_id in chains:
+        start, end = get_chain_absolute_indices(pdb_path, chain_id)
+        chain_idx_map[chain_id] = (start, end)
+    # 2. Calculate Intra-chain PAE: pae_chain_<chain>
+    for chain_id in chains:
+        start, end = chain_idx_map[chain_id]
+        # Slice the diagonal block for the specific chain
+        intra_slice = pae_file[start:end+1, start:end+1]
+        pae_res[f"pae_chain_{chain_id}"] = np.mean(intra_slice)
+    # 3. Calculate Inter-chain PAE: pae_interaction_<chain1>_<chain2>
+    # combinations(chains, 2) ensures we calculate each pair only once (e.g., A-B)
+    for c1, c2 in combinations(chains, 2):
+        s1, e1 = chain_idx_map[c1]
+        s2, e2 = chain_idx_map[c2]        
+        # Interaction 1: Chain 1 relative to Chain 2
+        pae_inter1 = np.mean(pae_file[s1:e1+1, s2:e2+1])
+        # Interaction 2: Chain 2 relative to Chain 1
+        pae_inter2 = np.mean(pae_file[s2:e2+1, s1:e1+1])
+        # Calculate the symmetric mean interaction
+        pae_interaction = (pae_inter1 + pae_inter2) / 2
+        pae_res[f"pae_interaction_{c1}_{c2}"] = pae_interaction
+
+    # For backwards compatibility, make pae_interaction the value between chain A and B
+    pae_res[f"pae_interaction"] = pae_res[f"pae_interaction_A_B"]
+    pae_res_serialized = {
+        k: round(float(v), 4) for k, v in pae_res.items()
+    }
+    return pae_res_serialized
 
 def get_chain_absolute_indices(pdb_path, chain_id):
     parser = PDBParser(QUIET=True)

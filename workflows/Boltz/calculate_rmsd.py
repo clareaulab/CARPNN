@@ -242,6 +242,32 @@ def compute_rmsd_between_pdbs(binder_complex_pdb, binder_backbone_pdb, binder_mo
 
     return res_dict
 
+# def compute_rmsd_table(df, pred_col, monomer_col, backbone_col,
+#                        compute_monomer_rmsd=True,
+#                        compute_target_rmsd=True,
+#                        compute_hotspot_rmsd=True,
+#                        binder_chain="A",
+#                        target_chain="B"):
+#     tqdm.tqdm.pandas()
+
+#     def row_fn(x):
+#         pred_pdb = x[pred_col]
+#         backbone_pdb = x[backbone_col] if compute_target_rmsd or compute_hotspot_rmsd else None
+#         monomer_pdb = x[monomer_col] if compute_monomer_rmsd else None
+#         return compute_rmsd_between_pdbs(
+#             pred_pdb, backbone_pdb, monomer_pdb,
+#             compute_monomer_rmsd=compute_monomer_rmsd,
+#             compute_target_rmsd=compute_target_rmsd,
+#             compute_hotspot_rmsd=compute_hotspot_rmsd,
+#             binder_chain=binder_chain,
+#             target_chain=target_chain
+#         )
+
+#     rmsd_rows = df.progress_apply(row_fn, axis=1).tolist()
+#     rmsd_df = pd.DataFrame(rmsd_rows)
+#     merged_df = pd.concat([df, rmsd_df], axis=1)
+#     return merged_df
+
 def compute_rmsd_table(df, pred_col, monomer_col, backbone_col,
                        compute_monomer_rmsd=True,
                        compute_target_rmsd=True,
@@ -250,21 +276,45 @@ def compute_rmsd_table(df, pred_col, monomer_col, backbone_col,
                        target_chain="B"):
     tqdm.tqdm.pandas()
 
-    def row_fn(x):
-        pred_pdb = x[pred_col]
-        backbone_pdb = x[backbone_col] if compute_target_rmsd or compute_hotspot_rmsd else None
-        monomer_pdb = x[monomer_col] if compute_monomer_rmsd else None
-        return compute_rmsd_between_pdbs(
-            pred_pdb, backbone_pdb, monomer_pdb,
-            compute_monomer_rmsd=compute_monomer_rmsd,
-            compute_target_rmsd=compute_target_rmsd,
-            compute_hotspot_rmsd=compute_hotspot_rmsd,
-            binder_chain=binder_chain,
-            target_chain=target_chain
-        )
+    # Define the keys we expect to see in the output to handle failures gracefully
+    expected_keys = []
+    if compute_monomer_rmsd: expected_keys.append("monomer_rmsd")
+    if compute_target_rmsd: expected_keys.append("target_rmsd")
+    if compute_hotspot_rmsd: expected_keys.append("hotspot_rmsd")
 
+    def row_fn(x):
+        try:
+            pred_pdb = x[pred_col]
+            # Handle potentially missing file paths or NaN values in the dataframe
+            if pd.isna(pred_pdb):
+                raise ValueError(f"Prediction PDB path is NaN for row {x.name}")
+
+            backbone_pdb = x[backbone_col] if (compute_target_rmsd or compute_hotspot_rmsd) else None
+            monomer_pdb = x[monomer_col] if compute_monomer_rmsd else None
+
+            return compute_rmsd_between_pdbs(
+                pred_pdb, backbone_pdb, monomer_pdb,
+                compute_monomer_rmsd=compute_monomer_rmsd,
+                compute_target_rmsd=compute_target_rmsd,
+                compute_hotspot_rmsd=compute_hotspot_rmsd,
+                binder_chain=binder_chain,
+                target_chain=target_chain
+            )
+        except Exception as e:
+            # Print the error for debugging, but don't stop the whole table
+            print(f"Error processing row {x.name} ({x.get('id', 'unknown')}): {e}")
+            # Return a dictionary of NaNs so the DataFrame remains the same length
+            return {key: np.nan for key in expected_keys}
+
+    # Apply the function across the rows
     rmsd_rows = df.progress_apply(row_fn, axis=1).tolist()
+    
+    # Create the RMSD dataframe
     rmsd_df = pd.DataFrame(rmsd_rows)
+    
+    # Ensure indices match before concat (crucial if df has been filtered previously)
+    rmsd_df.index = df.index
+    
     merged_df = pd.concat([df, rmsd_df], axis=1)
     return merged_df
 

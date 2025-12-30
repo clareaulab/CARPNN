@@ -21,6 +21,6 @@ sbatch ${IPSAE_SCRIPT} ${PREDICTION_OUTPUT_DIRECTORY}
 # -- step 7: calculate pae interaction across directories
 sbatch ${PAE_SCRIPT} ${PREDICTION_OUTPUT_DIRECTORY}
 
-# -- step 8: Run BindCraft style interface calculation
-#sbatch ${ROSETTA_SCRIPT} ${PREDICTION_OUTPUT_DIRECTORY} -no_relax
-sbatch ${ROSETTA_SCRIPT} ${PREDICTION_OUTPUT_DIRECTORY}
+# # -- step 8: Run BindCraft style interface calculation
+# #sbatch ${ROSETTA_SCRIPT} ${PREDICTION_OUTPUT_DIRECTORY} -no_relax
+# sbatch ${ROSETTA_SCRIPT} ${PREDICTION_OUTPUT_DIRECTORY}
