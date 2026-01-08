@@ -209,8 +209,10 @@ def compute_rmsd_between_pdbs(binder_complex_pdb, binder_backbone_pdb, binder_mo
             align_align_chain_id=binder_chain,
             reference_rmsd_chain_id=binder_chain,
             align_rmsd_chain_id=binder_chain,
-            seq_align_first=False,
-            seq_align_second=False
+            #seq_align_first=False,
+            #seq_align_second=False,
+            seq_align_first=True,
+            seq_align_second=True
         )
         res_dict["binder_complex_monomer_rmsd"] = binder_complex_monomer_rmsd
 

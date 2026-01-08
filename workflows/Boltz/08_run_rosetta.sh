@@ -28,10 +28,10 @@ done
 
 ## Runs BindCraft-based Rosetta Interface Scoring Outputs (bindcraft.util) for each subdirectory in INPUT
 for SUBDIR in ${INPUT}/*/; do
-    if [ -f "${SUBDIR}/binding_interface.tsv" ]; then
-        echo "Skipping ${SUBDIR} (binding_interface.tsv already exists)"
-        continue
-    fi
+    # if [ -f "${SUBDIR}/binding_interface.tsv" ]; then
+    #     echo "Skipping ${SUBDIR} (binding_interface.tsv already exists)"
+    #     continue
+    # fi
     
     ${BINDCRAFT_PYTHON} ${BINDCRAFT_UTIL_SCRIPT} \
      -pdbdir ${SUBDIR} \

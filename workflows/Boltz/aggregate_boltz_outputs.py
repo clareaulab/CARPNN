@@ -5,6 +5,7 @@ import re
 import pandas as pd
 import numpy as np
 from Bio.PDB import PDBParser, PPBuilder
+from itertools import combinations
 import tqdm
 import argparse
 

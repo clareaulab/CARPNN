@@ -2,7 +2,7 @@
 #SBATCH --job-name=boltz
 #SBATCH --output=run_boltz.out
 #SBATCH --error=run_boltz.err
-#SBATCH --partition=lareauc_gpu,gpu
+#SBATCH --partition=gpu,lareauc_gpu
 #SBATCH --gres=gpu:1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4

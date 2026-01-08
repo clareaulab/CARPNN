@@ -312,15 +312,15 @@
         "higher": true
     },
     "Average_dG": {
-        "threshold": 35,
+        "threshold": null,
         "higher": false
     },
     "1_dG": {
-        "threshold": 35,
+        "threshold": null,
         "higher": false
     },
     "2_dG": {
-        "threshold": 35,
+        "threshold": null,
         "higher": false
     },
     "3_dG": {
