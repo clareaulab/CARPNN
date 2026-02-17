@@ -30,13 +30,19 @@ Follow the instruction from https://github.com/sokrypton/ColabFold/wiki/Running-
   - `chmod +x setup_databases.sh`
   - `./setup_databases.sh database/`
 
-Currently the input csv must have two columns named `id` and `sequence`. The id must be formatted by the binder name and target name delimitted by a double underscored. For example: `binder_1__BCMA`. The sequence must contain exactly two sequence delimited by `:`. For example: `BINDERSEQ:TARGETSEQ`. An example of this input can be found in `examples/01_bindcraft_boltz_refolded/input_tables/colabfold_table.csv`
+Currently the input csv must have two columns named `id` and `sequence`. The id must be formatted by the binder name and target name delimitted by a double underscored. For example: `binder_1__BCMA`. The sequence must contain exactly two sequence delimited by `:`. For example: `BINDERSEQ:TARGETSEQ`. An example of this input can be found in `examples/01_bindcraft_boltz_refolded/input_tables/colabfold_table.csv`. A similar format can also be used to fold up more than two chains as long as the sequences are separated by `:`. Or in the case of monomers no delimiters are needed.
 
 Setting up a local MSA search also require massive amount of memory so make sure your sbatch configuration is very high in memory (at least 512GB) for efficient search.
 
-### `03_prep_boltz_yamls`
+### `03_prep_boltz_yamls` (for binder-target pair, strictly two chains)
 
 This scripts takes in the colabsearch alignment outputs (a3m files) from `02_generate_msa.sh` and converts them into yaml files that can be processed by Boltz.
+
+- The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
+- The `PYTHON_PATH` should be updated to the CAR-PNN environment python
+
+### `03b_prep_boltz_yamls_multimer` (for any number of chains) 
+This script is current in BETA and is subject to change. It is a rework of the `03_prep_boltz_yamls` that takes in the colabsearch alignment outputs (a3m files) from `02_generate_msa.sh` for any number of chains and convert them into yaml files that can be processed by Boltz. Note that the MSA naming scheme is different from the original `03_prep_boltz_yamls`
 
 - The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
 - The `PYTHON_PATH` should be updated to the CAR-PNN environment python
@@ -86,7 +92,7 @@ A convenience script that runs `07_run_pae.sh` over a list of directories.
 
 - The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
 
-### `08_run_rosetta.sh`
+### `08_run_rosetta.sh` (currently only vailable for 2 chain binder-target pairs)
 
 This script calculates the same set of biophyisical metrics calculated by BindCraft on the provided boltz prediction directory. Following the instruction at https://github.com/martinpacesa/BindCraft/tree/main to install BindCraft. Alternatively, you could install scipy and pyrosetta and use the CARPNN python environment instead
 
@@ -95,7 +101,7 @@ This script calculates the same set of biophyisical metrics calculated by BindCr
 
 Note that this sccipt can also be ran with an addition flag `-no_relax`. If specified, this will skip the relaxation step of the interface biophyisical metric calculation which could be very slow for larger complexes. However this will result in predicted stuctures with more clashes which will impact dG calculations and the filters used downtream should be adjusted accordingly.
 
-### `08b_run_rosetta_array.sh`
+### `08b_run_rosetta_array.sh` (currently only vailable for 2 chain binder-target pairs)
 
 A convenience script that runs `08_run_rosetta.sh` over a list of directories. The `-no_relax` flag can also be specified here to skip relaxing the structure to improve runtime.
 
@@ -115,7 +121,11 @@ This script aggregates the predictions files in each directory into a csv that c
 - The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
 - The `CARPNN_PYTHON` should be updated to the CAR-PNN environment python
 
-### `boltz_pipeline_wrapper_step_02_05_HC.sh`
+## Pipeline Wrapper Scripts
+
+### For 2 chain binder-target:
+
+### `boltz_pipeline_wrapper_step_02_05_HC.sh` 
 
 This is a wrapper scripts that runs `02_generate_msa.sh`, `03_prep_boltz_yamls.sh`, `04_split_boltz_yamls.sh`, and `05b_run_boltz_with_local_msa_array.sh` sequentially. This script takes the longest time 
 
@@ -124,6 +134,20 @@ This is a wrapper scripts that runs `02_generate_msa.sh`, `03_prep_boltz_yamls.s
 ### `boltz_pipeline_wrapper_step_06_08_HC.sh`
 
 This is a wrapper scripts that runs `06b_run_ipsae_array.sh`, `07b_run_pae_array.sh`, `08b_run_rosetta_array.sh` simultaneously
+
+- The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
+
+### For any number of chains (including monomers)
+
+### `boltz_pipeline_wrapper_step_02_05_multimer_HC.sh` (for any number of chains)
+
+This is a wrapper scripts that runs `02_generate_msa.sh`, `03b_prep_boltz_yamls_multimer.sh`, `04_split_boltz_yamls.sh`, and `05b_run_boltz_with_local_msa_array.sh` sequentially. This script takes the longest time 
+
+- The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
+
+### `boltz_pipeline_wrapper_step_06_07_multimer_HC.sh`
+
+This is a wrapper scripts that runs `06b_run_ipsae_array.sh`, `07b_run_pae_array.sh`, simultaneously
 
 - The `CARPNN_DIR` variable should be updated to the path to this CARPNN installation directory
 

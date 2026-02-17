@@ -1,14 +1,14 @@
 {
     "Average_complex_plddt": {
-        "threshold": 0.8,
+        "threshold": null,
         "higher": true
     },
     "1_complex_plddt": {
-        "threshold": 0.8,
+        "threshold": null,
         "higher": true
     },
     "2_complex_plddt": {
-        "threshold": 0.8,
+        "threshold": null,
         "higher": true
     },
     "3_complex_plddt": {
@@ -120,7 +120,7 @@
         "higher": false
     },
     "Average_i_pLDDT": {
-        "threshold": null,
+        "threshold": 0.7,
         "higher": true
     },
     "1_i_pLDDT": {
@@ -240,15 +240,15 @@
         "higher": false
     },
     "Average_Surface_Hydrophobicity": {
-        "threshold": 0.35,
+        "threshold": 0.4,
         "higher": false
     },
     "1_Surface_Hydrophobicity": {
-        "threshold": 0.35,
+        "threshold": null,
         "higher": false
     },
     "2_Surface_Hydrophobicity": {
-        "threshold": 0.35,
+        "threshold": null,
         "higher": false
     },
     "3_Surface_Hydrophobicity": {
@@ -312,15 +312,15 @@
         "higher": true
     },
     "Average_dG": {
-        "threshold": null,
+        "threshold": 0,
         "higher": false
     },
     "1_dG": {
-        "threshold": null,
+        "threshold": 0,
         "higher": false
     },
     "2_dG": {
-        "threshold": null,
+        "threshold": 0,
         "higher": false
     },
     "3_dG": {
@@ -504,15 +504,15 @@
         "higher": true
     },
     "Average_n_InterfaceUnsatHbonds": {
-        "threshold": 4,
+        "threshold": 6,
         "higher": false
     },
     "1_n_InterfaceUnsatHbonds": {
-        "threshold": 4,
+        "threshold": null,
         "higher": false
     },
     "2_n_InterfaceUnsatHbonds": {
-        "threshold": 4,
+        "threshold": null,
         "higher": false
     },
     "3_n_InterfaceUnsatHbonds": {

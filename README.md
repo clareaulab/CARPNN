@@ -64,7 +64,7 @@ All the inputs required and outputs from the tool are provided in the `examples/
 As the tool was developed with de novo binders in mind, we have not tested this tool on scFVs and do not recommend using this workflow as the individual tools (e.g. ProteinMPNN/Boltz/ipSAE) have not been validated for this purpose. However as new tools come up may get included in this workflow in the future.
 
 ### Can this be used to fold up my binder against a multi-chain protein?
-Unfortunately this feature is not implemented at the moment. As a get around, you can add glycines linkers (ex: 20Gs) between the multichain protein and treat them as monomer
+A beta version of this feature is implemented via `workflows/Boltz/boltz_pipeline_wrapper_step_02_05_multimer_HC.sh` although the Bindcraft metrics (e.g. pyrosetta metrics) are not supported in this workflow currently. As a get around, you can add glycines linkers (ex: 20Gs) between the multichain protein and treat them as monomers.
 
 ### I am bumping into JAX / deep learning library related errors, what should I do?
 It is likely that you have compiled the library on a cpu-node without gpu access. This can usually be solved by requesting a gpu interactive session and reinstalling the libraries.
