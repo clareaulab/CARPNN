@@ -39,12 +39,12 @@ for subdir in $(find "$PRED_DIR" -maxdepth 1 -type d -printf '%P\n' | grep -v '^
     
     # Submit a Slurm job for each subdirectory
     sbatch --job-name="load_${subdir}" \
-           --output="${OUTPUT_DIR}/slurm_output_${subdir}.log" \
-           --error="${OUTPUT_DIR}/slurm_error_${subdir}.log" \
+           --output="${OUTPUT_DIR}/new_slurm_output_${subdir}.log" \
+           --error="${OUTPUT_DIR}/new_slurm_error_${subdir}.log" \
            --partition=lareauc_cpu,cpu \
            --time=1:00:00 \
            --mem=16G \
-           --wrap="python ${PYTHON_SCRIPT_PATH} ${FULL_SUBDIR_PATH} --output_csv ${OUTPUT_CSV}"
+           --wrap="${CARPNN_PYTHON} ${PYTHON_SCRIPT_PATH} ${FULL_SUBDIR_PATH} --output_csv ${OUTPUT_CSV}"
     
     echo "Submitted Slurm job for directory: $FULL_SUBDIR_PATH"
 done
