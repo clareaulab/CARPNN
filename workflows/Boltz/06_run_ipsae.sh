@@ -14,10 +14,19 @@ DIST_CUTOFF=${3:-10}      # Default to 10 if not provided
 MODEL_TYPE=${4:-boltz1}    # Default to 'boltz1' if not provided
 OUTPUT_TYPE=${5:-pdb}    # Default to 'pdb' if not provided
 
+## ---- Paths ----
+## A path set below (uncomment and edit its line) or already exported in your environment is never
+## overwritten. Anything still empty is filled in from config.sh, written by ./configure.sh.
+## Previous hardcoded paths:
 ## Replace with your CAR-PNN directory
-CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+# CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
 ## Replace with CAR-PNN python
-PYTHON_PATH="/data1/lareauc/users/chuh/miniconda3/envs/carpnn/bin/python" # Any python with numpy will do
+# PYTHON_PATH="/data1/lareauc/users/chuh/miniconda3/envs/carpnn/bin/python" # Any python with numpy will do
+CARPNN_CONFIG="${CARPNN_CONFIG:-$HOME/.config/carpnn/config.sh}"
+if [ -f "$CARPNN_CONFIG" ]; then . "$CARPNN_CONFIG"; fi
+PYTHON_PATH="${PYTHON_PATH:-$CARPNN_PYTHON}"   # a PYTHON_PATH set above wins
+: "${CARPNN_DIR:?not set - hardcode it above or run ./configure.sh}"
+: "${PYTHON_PATH:?not set - hardcode it above or run ./configure.sh}"
 
 IPSAE_SCIRPT_PATH="${CARPNN_DIR}/public/ipSAE/ipsae_modified.py"
 

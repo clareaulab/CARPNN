@@ -24,6 +24,8 @@ which python # <- remember this path
 
 ### All scripts
 
+Note: paths like `CARPNN_DIR` and the `*_PYTHON` / `*_PATH` variables mentioned below can be set once with `./configure.sh` (stored in `config.sh`) instead of being edited in each script. A path you hardcode in a script still takes precedence.
+
 The sbatch headers configurations (ex: `#SBATCH --partition=cpu`) should be updated to fit your HPC system. 
 
 ### `run_alphafold_monomer.sh`

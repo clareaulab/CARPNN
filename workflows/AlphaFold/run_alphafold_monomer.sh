@@ -14,11 +14,19 @@ INPUT_FASTA=$1
 OUTPUT_DIR=$2
 
 ## Environment Configurations
+## ---- Paths ----
+## A path set below (uncomment and edit its line) or already exported in your environment is never
+## overwritten. Anything still empty is filled in from config.sh, written by ./configure.sh.
+## Previous hardcoded paths:
 ## Replace with the path to this repo
-CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
-
+# CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
 ## Replace the RFDAA_AF2_PYTHON with the python in the mlfold environment
-RFDAA_AF2_PYTHON="/data1/lareauc/users/chuh/miniconda3/envs/mlfold/bin/python"
+# RFDAA_AF2_PYTHON="/data1/lareauc/users/chuh/miniconda3/envs/mlfold/bin/python"
+CARPNN_CONFIG="${CARPNN_CONFIG:-$HOME/.config/carpnn/config.sh}"
+if [ -f "$CARPNN_CONFIG" ]; then . "$CARPNN_CONFIG"; fi
+: "${CARPNN_DIR:?not set - hardcode it above or run ./configure.sh}"
+: "${RFDAA_AF2_PYTHON:?not set - hardcode it above or run ./configure.sh}"
+
 RFDAA_AF2_PY="${CARPNN_DIR}/public/heme_binder_diffusion/scripts/af2/af2.py"
 
 # Input parameters

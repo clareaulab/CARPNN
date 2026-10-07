@@ -20,11 +20,20 @@ BATCH_SIZE=5
 NUM_BATCH=1
 TEMPERATURE=0.4 # For large number of sequences we recommend increasing the temperature
 
+## ---- Paths ----
+## A path set below (uncomment and edit its line) or already exported in your environment is never
+## overwritten. Anything still empty is filled in from config.sh, written by ./configure.sh.
+## Previous hardcoded paths:
 ## Replace this with the directory and python to your own LigandMPNN environment
-LIGANDMPNN_DIR="/data1/lareauc/users/chuh/softwares/LigandMPNN"
-LIGANDMPNN_PYTHON="/data1/lareauc/users/chuh/miniconda3/envs/ligandmpnn_env/bin/python"
+# LIGANDMPNN_DIR="/data1/lareauc/users/chuh/softwares/LigandMPNN"
+# LIGANDMPNN_PYTHON="/data1/lareauc/users/chuh/miniconda3/envs/ligandmpnn_env/bin/python"
 ## Replace this with the model param to your own LigandMPNN environment
-CHECKPOINT_PATH="/data1/lareauc/users/chuh/softwares/LigandMPNN/model_params/solublempnn_v_48_020.pt"
+# CHECKPOINT_PATH="/data1/lareauc/users/chuh/softwares/LigandMPNN/model_params/solublempnn_v_48_020.pt"
+CARPNN_CONFIG="${CARPNN_CONFIG:-$HOME/.config/carpnn/config.sh}"
+if [ -f "$CARPNN_CONFIG" ]; then . "$CARPNN_CONFIG"; fi
+: "${LIGANDMPNN_DIR:?not set - hardcode it above or run ./configure.sh}"
+: "${LIGANDMPNN_PYTHON:?not set - hardcode it above or run ./configure.sh}"
+: "${CHECKPOINT_PATH:?not set - hardcode it above or run ./configure.sh}"
 
 # Create output and input directories
 mkdir -p "${OUTPUT_DIR}/input"

@@ -8,7 +8,14 @@
 
 PREDICTION_OUTPUT_DIRECTORY=$1
 
-CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+## ---- Paths ----
+## A path set below (uncomment and edit its line) or already exported in your environment is never
+## overwritten. Anything still empty is filled in from config.sh, written by ./configure.sh.
+## Previous hardcoded paths:
+# CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+CARPNN_CONFIG="${CARPNN_CONFIG:-$HOME/.config/carpnn/config.sh}"
+if [ -f "$CARPNN_CONFIG" ]; then . "$CARPNN_CONFIG"; fi
+: "${CARPNN_DIR:?not set - hardcode it above or run ./configure.sh}"
 SCRIPT_DIR="${CARPNN_DIR}/workflows/Boltz" # Hardcoded, actually runs boltz2
 
 IPSAE_SCRIPT="${SCRIPT_DIR}/06b_run_ipsae_array.sh"

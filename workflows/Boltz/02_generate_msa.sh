@@ -12,12 +12,20 @@
 INPUT=$1  # Input file (colabsearch-like csv)
 OUTDIR=$2  # Output directory for all outputs
 
+## ---- Paths ----
+## A path set below (uncomment and edit its line) or already exported in your environment is never
+## overwritten. Anything still empty is filled in from config.sh, written by ./configure.sh.
+## Previous hardcoded paths:
 ## Replace with you path to the CARPNN directory
-CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+# CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
 ## Replace with you path to ColabFold singularity container
-SIF_PATH="/data1/lareauc/shared_resources/colabfold_sif/colabfold_1.5.5-cuda12.2.2.sif"
+# SIF_PATH="/data1/lareauc/shared_resources/colabfold_sif/colabfold_1.5.5-cuda12.2.2.sif"
 ## Replace with you path to the ColabFold database
-DB_FOLDER="/data1/lareauc/shared_resources/colabfold_db"
+# DB_FOLDER="/data1/lareauc/shared_resources/colabfold_db"
+CARPNN_CONFIG="${CARPNN_CONFIG:-$HOME/.config/carpnn/config.sh}"
+if [ -f "$CARPNN_CONFIG" ]; then . "$CARPNN_CONFIG"; fi
+: "${SIF_PATH:?not set - hardcode it above or run ./configure.sh}"
+: "${DB_FOLDER:?not set - hardcode it above or run ./configure.sh}"
 
 INPUT_DIR=$(dirname ${INPUT})
 INPUT_BASENAME=$(basename ${INPUT})
