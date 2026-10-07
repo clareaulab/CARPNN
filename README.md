@@ -35,6 +35,10 @@ If you already have these tools installed else where in your HPC environment you
 
 For details, read about how to set up the individual workflows in the README files in the individual workflow directorys under `workflows/`. The workflows are decoupled into individual scripts such that if you already have another workflow you are using to create a certain component (ex: binder generation / MSA) they should be easily swappable to your needs.
 
+### Step 3: Configure paths
+
+Run `./configure.sh` in this directory. It detects (or asks for) the paths to the tools and environments from Steps 1-2 and writes `config.sh`, which all scripts read, so paths do not need to be edited inside the scripts. This is only a convenience: a path you hardcode in a script (or export in your shell) is never overwritten, `config.sh` just fills in what is empty. Re-run it any time; `./configure.sh --check` verifies the setup and `./configure.sh --set-partitions` writes your Slurm partitions into the `#SBATCH` headers. All variables are described in `config.example.sh`.
+
 ## How to Run
 
 In short, the binder sequences to lead optimization workflow consist of 4 major steps:
@@ -51,6 +55,7 @@ To perform Step 3 and Step 4: see an example in the `notebooks/lead_optimization
 All the inputs required and outputs from the tool are provided in the `examples/` directory.
 
 ## Directory Structure
+- `configure.sh`, `config.example.sh` - Set up (`config.sh`) and document the tool paths used by the scripts
 - `examples` - Required inputs and workflow outputs
 - `filters` - BindCraft-style json for Binder Filtering
 - `notebooks` - Notebooks outlining the pipeline

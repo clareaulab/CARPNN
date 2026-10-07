@@ -648,6 +648,11 @@ import argparse
 from tqdm import tqdm
 import pandas as pd
 
+## External binaries. Set by ./configure.sh (exported through config.sh) or overridden
+## with -dssp_path / -dalphaball_path. Resolved at call time by interface_score_dataframe().
+DSSP_PATH = os.environ.get("DSSP_PATH")
+DALPHABALL_PATH = os.environ.get("DALPHABALL_PATH")
+
 def make_relaxed_pdbdir(pdbdir,outdir=None):
     """
     For a directory of pdbs, make a new directory of relaxed pdbs with the same name at the new directory
@@ -740,8 +745,9 @@ def interface_score_dataframe(pdbdir,binder_chain="A",relaxed_pdbdir=None,no_rel
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
-    DALPHABALL_PATH="/data1/lareauc/users/chuh/softwares/BindCraft/functions/DAlphaBall.gcc"
-    DSSP_PATH="/data1/lareauc/users/chuh/softwares/BindCraft/functions/dssp"
+    ## Previous hardcoded paths. Uncomment and edit to hardcode them (they then take precedence over $DSSP_PATH / $DALPHABALL_PATH from config.sh; -dssp_path / -dalphaball_path still override):
+    # DALPHABALL_PATH="/data1/lareauc/users/chuh/softwares/BindCraft/functions/DAlphaBall.gcc"
+    # DSSP_PATH="/data1/lareauc/users/chuh/softwares/BindCraft/functions/dssp"
 
     # I/O Arguments
     parser.add_argument("-pdbdir", type=str,required=True,help='The directory containing the pdbs to be scored')
@@ -752,9 +758,17 @@ if __name__ == "__main__":
     parser.add_argument("-is_colabfold", action="store_true",default=False,help='If specified, assume ColabFold naming convention between unrelaxed vs. relaxed pdb. (aka we will search for _unrelaxed_ and _relaxed_ pair)')
     parser.add_argument("-out", type=str, default="./binding_interface.tsv", help="Path to the output score file")
     parser.add_argument("-seed", type=int, default=42, help="Seed to use for Pyrosetta")
+    parser.add_argument("-dssp_path", type=str, default=DSSP_PATH, help="Path to the DSSP executable (BindCraft ships one at functions/dssp). Defaults to $DSSP_PATH")
+    parser.add_argument("-dalphaball_path", type=str, default=DALPHABALL_PATH, help="Path to DAlphaBall.gcc (BindCraft ships one at functions/DAlphaBall.gcc). Defaults to $DALPHABALL_PATH")
     
     # Add a special argument that specifically alows for mapping between relaxed and unrelaxed pdbs based on ColabFold outputs
     args = parser.parse_args()
+
+    for flag, value in (("-dssp_path / $DSSP_PATH", args.dssp_path), ("-dalphaball_path / $DALPHABALL_PATH", args.dalphaball_path)):
+        if not value or not os.path.exists(value):
+            parser.error(f"{flag} is not set or does not exist ({value!r}). Run ./configure.sh or pass the flag.")
+    DSSP_PATH = args.dssp_path
+    DALPHABALL_PATH = args.dalphaball_path
 
     ## Initialize pyrosetta
     #"-run:constant_seed 1 -jran 10"

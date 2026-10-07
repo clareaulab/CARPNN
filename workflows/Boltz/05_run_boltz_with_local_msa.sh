@@ -16,8 +16,15 @@ OUTPUT_DIR=$2
 DIFFUSION_SAMPLES=5
 RECYCLING_STEPS=10
 
+## ---- Paths ----
+## A path set below (uncomment and edit its line) or already exported in your environment is never
+## overwritten. Anything still empty is filled in from config.sh, written by ./configure.sh.
+## Previous hardcoded paths:
 ## Replace with path to the boltz environment
-BOLTZ_PATH="/data1/lareauc/users/chuh/miniconda3/envs/boltz2/bin/boltz"
+# BOLTZ_PATH="/data1/lareauc/users/chuh/miniconda3/envs/boltz2/bin/boltz"
+CARPNN_CONFIG="${CARPNN_CONFIG:-$HOME/.config/carpnn/config.sh}"
+if [ -f "$CARPNN_CONFIG" ]; then . "$CARPNN_CONFIG"; fi
+: "${BOLTZ_PATH:?not set - hardcode it above or run ./configure.sh}"
 
 ## To perform local MSA, we need to provide additional msa directory
 ${BOLTZ_PATH} predict ${INPUT_PATH} --out_dir ${OUTPUT_DIR} --recycling_steps ${RECYCLING_STEPS} --diffusion_samples ${DIFFUSION_SAMPLES} --output_format "pdb" --write_full_pae	

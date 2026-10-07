@@ -27,8 +27,15 @@ INPUT_CSV=$1
 MASTER_OUTPUT_DIR=$2
 N_CHUNKS=$3
 
+## ---- Paths ----
+## A path set below (uncomment and edit its line) or already exported in your environment is never
+## overwritten. Anything still empty is filled in from config.sh, written by ./configure.sh.
+## Previous hardcoded paths:
 # Replace this by your own CARPNN project directory
-CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+# CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+CARPNN_CONFIG="${CARPNN_CONFIG:-$HOME/.config/carpnn/config.sh}"
+if [ -f "$CARPNN_CONFIG" ]; then . "$CARPNN_CONFIG"; fi
+: "${CARPNN_DIR:?not set - hardcode it above or run ./configure.sh}"
 
 # These are the paths to the other pipeline scripts. Assumes they are in the same directory.
 SCRIPT_DIR="${CARPNN_DIR}/workflows/Boltz" 

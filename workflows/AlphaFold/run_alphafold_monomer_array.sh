@@ -5,8 +5,15 @@ INPUT_DIR=$1
 OUTPUT_DIR=$2
 
 # Path to SLURM script (assumed to be in the same directory as this wrapper)
+## ---- Paths ----
+## A path set below (uncomment and edit its line) or already exported in your environment is never
+## overwritten. Anything still empty is filled in from config.sh, written by ./configure.sh.
+## Previous hardcoded paths:
 ## Replace with the path to this repo
-CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+# CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+CARPNN_CONFIG="${CARPNN_CONFIG:-$HOME/.config/carpnn/config.sh}"
+if [ -f "$CARPNN_CONFIG" ]; then . "$CARPNN_CONFIG"; fi
+: "${CARPNN_DIR:?not set - hardcode it above or run ./configure.sh}"
 AF2_SLURM_SCRIPT="${CARPNN_DIR}/workflows/AlphaFold/run_alphafold_monomer.sh"
 
 # Loop through all .fasta files in the input directory

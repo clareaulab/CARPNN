@@ -12,9 +12,17 @@ PRED_DIR=$1
 OUTPUT_DIR=$2
 
 ## Paths
+## ---- Paths ----
+## A path set below (uncomment and edit its line) or already exported in your environment is never
+## overwritten. Anything still empty is filled in from config.sh, written by ./configure.sh.
+## Previous hardcoded paths:
 ## Use the CARPNN python
-CARPNN_PYTHON="/data1/lareauc/users/chuh/miniconda3/envs/carpnn/bin/python"
-CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+# CARPNN_PYTHON="/data1/lareauc/users/chuh/miniconda3/envs/carpnn/bin/python"
+# CARPNN_DIR="/data1/lareauc/users/chuh/softwares/CARPNN"
+CARPNN_CONFIG="${CARPNN_CONFIG:-$HOME/.config/carpnn/config.sh}"
+if [ -f "$CARPNN_CONFIG" ]; then . "$CARPNN_CONFIG"; fi
+: "${CARPNN_DIR:?not set - hardcode it above or run ./configure.sh}"
+: "${CARPNN_PYTHON:?not set - hardcode it above or run ./configure.sh}"
 PYTHON_SCRIPT_PATH="${CARPNN_DIR}/workflows/Boltz/aggregate_boltz_outputs.py"
 
 # --- Script Logic ---
@@ -39,12 +47,12 @@ for subdir in $(find "$PRED_DIR" -maxdepth 1 -type d -printf '%P\n' | grep -v '^
     
     # Submit a Slurm job for each subdirectory
     sbatch --job-name="load_${subdir}" \
-           --output="${OUTPUT_DIR}/slurm_output_${subdir}.log" \
-           --error="${OUTPUT_DIR}/slurm_error_${subdir}.log" \
+           --output="${OUTPUT_DIR}/new_slurm_output_${subdir}.log" \
+           --error="${OUTPUT_DIR}/new_slurm_error_${subdir}.log" \
            --partition=lareauc_cpu,cpu \
            --time=1:00:00 \
            --mem=16G \
-           --wrap="python ${PYTHON_SCRIPT_PATH} ${FULL_SUBDIR_PATH} --output_csv ${OUTPUT_CSV}"
+           --wrap="${CARPNN_PYTHON} ${PYTHON_SCRIPT_PATH} ${FULL_SUBDIR_PATH} --output_csv ${OUTPUT_CSV}"
     
     echo "Submitted Slurm job for directory: $FULL_SUBDIR_PATH"
 done
